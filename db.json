@@ -39,6 +39,14 @@
       "image": "./assets/ramen/kojiro.jpg",
       "rating": 6,
       "comment": "Perfect for a cold night."
+    },
+    {
+      "name": "Grandmas Soup",
+      "restaurant": "Kingsland",
+      "image": "https://media.istockphoto.com/id/494250120/photo/chicken-noodles-soup.jpg?s=2048x2048&w=is&k=20&c=YG9Vt3l5jKZQQEzoyZdbIOBEszQMEYXcRnbiHlX8x2k=",
+      "rating": "11",
+      "comment": "Only the best",
+      "id": 6
     }
   ]
 }
