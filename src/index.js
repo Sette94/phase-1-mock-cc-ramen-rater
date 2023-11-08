@@ -9,6 +9,12 @@ const ramenDetailContainer = document.getElementById('ramen-detail')
 // console.log(ramenDetailContainer)
 
 const ramenFormContainer = document.getElementById("new-ramen")
+const ramenUpdateFormContainer = document.getElementById("edit-ramen")
+
+let updateRamenId = ""
+
+
+
 ramenFormContainer.addEventListener("submit", (el) => {
     // debugger
 
@@ -20,9 +26,6 @@ ramenFormContainer.addEventListener("submit", (el) => {
         rating: el.target.rating.value,
         comment: el.target["new-comment"].value // due to new-comment as the id
     }
-
-    console.log("Object to be posted")
-    console.log(newRamen)
     fetch(ramenUrl, {
         method: "POST", // or 'PUT'
         headers: {
@@ -34,20 +37,51 @@ ramenFormContainer.addEventListener("submit", (el) => {
 
 })
 
+ramenUpdateFormContainer.addEventListener("submit", (el) => {
+    el.preventDefault()
+    let updateRamen = {
+        rating: el.target.rating.value,
+        comment: el.target["new-comment"].value // due to new-comment as the id
+    }
+    //GOT here at the end of the 90 didn't finish patch
+    console.log("Object to be updated")
+    console.log(updateRamen)
+    fetch(ramenUrl + "/" + updateRamenId, {
+        method: "PATCH", // or 'PUT'
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updateRamen)
+    }).then((res) => {
+        console.log(res.status)
+        fetch(ramenUrl + "/" + updateRamenId)
+            .then(res => res.json())
+            .then(data => {
+                renderRamen(data)
+                renderTopMenuRamen(data)
+            })
+    })
+
+
+
+})
+
+
 
 fetch(ramenUrl)
     .then(res => res.json())
     .then(data => {
         // console.log(data) //Array of objects 
+        //stretch render first bowl
+
+        renderRamen(data[0])
         data.forEach((ramen) => {
             // console.log(ramen) //indy objects 
 
             // Goals
             // 1) get images into ramenMenuContainer
             // 2) add a click event for every bowl
-
             renderTopMenuRamen(ramen)
-
         })
     })
 
@@ -61,6 +95,9 @@ function renderTopMenuRamen(ramen) {
     ramenImgContainer.addEventListener('click', () => {
         //We want to pass in the scoped ramen from the forEach!
         renderRamen(ramen)
+        updateRamenId = ramen.id
+
+
 
     })
 }
